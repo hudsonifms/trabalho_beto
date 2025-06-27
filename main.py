@@ -3,12 +3,12 @@ from participantes import *
 
 
 def menu():
- 
+    user.append(menu)
     opcoes = [
         [menu_participantes, "Alunos"],
         [passar, "Eventos"],
         [passar, "Relatorios"],
-        [passar, "Fechar"]
+        [None, "Fechar"]
     ]
     
     mostrar_menu(opcoes, "---- [ Menu ] ----")
@@ -18,5 +18,6 @@ def menu():
 def passar():
         print("passar")
         
-menu()
+while True:
+    menu()
 
