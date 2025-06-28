@@ -8,6 +8,7 @@ def mostrar_menu(opcoes, titulo=""):
 
 def tratar_input(func, opcoes, inp): 
     try:  
+        inp = int(inp)
         limpar_terminal()
         user.append(opcoes[inp-1][0]())
         retornar_menu()
@@ -21,8 +22,9 @@ def tratar_input(func, opcoes, inp):
 def form(*args):
     valores = {}
     for arg in args:
-        valores[arg] = input(f"Digite {arg}: ")
+        valores[arg] = input(f"{primeira_maiuscula(arg)}: ")
     return valores
+
 
 def retornar_menu():
     menu = user[-1]
@@ -35,11 +37,12 @@ def limpar_terminal():
         
 def mostrar_dados(dados):
     for chave, valor in dados.items():
-        # if(isinstance(valor, list)):
-        #     for i in valor:
-        #         if():
-        #         print(f" {i}")
-        print(f"{chave}: {valor}")
+        print(f"{primeira_maiuscula(chave)}: {valor}")
         
 def continuar():
     return input("Pressione enter para continuar ")
+
+def primeira_maiuscula(string):
+    if not string:
+        return ""
+    return string[0].upper() + string[1:]
