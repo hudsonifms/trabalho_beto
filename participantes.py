@@ -40,6 +40,7 @@ def menu_participantes():
 
 
 def cadastrar_participante():  
+    print("---- NOVO PARTICIPANTE ----")
     dados = form("nome", "cpf", "idade", "email", "telefone")
     participantes[dados['cpf']] = dados
     
