@@ -3,7 +3,7 @@ from util import *
 temas = []
 
 '''
-    ID
+    id
     Título
     Descrição
 '''
@@ -16,7 +16,7 @@ def menu_temas():
     ]
 
     mostrar_menu(opcoes, "---- [ TEMAS ] ----")
-    tratar_input(menu_temas, opcoes, int(input("Escolha uma opção: ")))
+    input_menu(menu_temas, opcoes, int(input("Escolha uma opção: ")))
 
 
 def cadastrar_tema():
@@ -27,7 +27,7 @@ def cadastrar_tema():
         print("Título e descrição são obrigatórios.")
         return continuar()
     
-    dados = form("titulo", "descricao")
+    dados = formulario("titulo", "descricao")
     temas.append(dados)
     
 def mostrar_temas():
@@ -37,13 +37,14 @@ def mostrar_temas():
         print("Nenhum tema cadastrado.")
         return continuar()
     
-    for i, tema in enumerate(temas, start=1):
-        print(f"{i} - {tema['titulo']}")
+    listagem_temas = listar_temas()
 
     inp = input("Escolha um tema ou pressione enter para voltar: ")
     
-    if inp.isdigit() and 1 <= int(inp) <= len(temas):
-        mostrar_dados(temas[int(inp) - 1])
+    if inp.isdigit() and 1 <= int(inp) <= len(listagem_temas):
+        limpar_terminal()
+        print(f"---- {listagem_temas[int(inp) - 1]['titulo']} ----")
+        mostrar_dados(listagem_temas[int(inp) - 1])
         return continuar()
     
     if inp == "":
@@ -51,3 +52,9 @@ def mostrar_temas():
     
     return mostrar_temas()
 
+def listar_temas(excluir_temas_listagem=""):
+    temas_filtrados = [tema for tema in temas if tema['titulo'] not in excluir_temas_listagem]
+    for i, tema in enumerate(temas_filtrados, start=1):
+        print(f"{i} - {tema['titulo']}")
+
+    return temas_filtrados

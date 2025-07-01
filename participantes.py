@@ -36,12 +36,14 @@ def menu_participantes():
     ]
 
     mostrar_menu(opcoes, "---- [ PARTICIPANTES ] ----")
-    tratar_input(menu_participantes, opcoes, int(input("Escolha a Opção: ")))
+    input_menu(menu_participantes, opcoes, int(input("Escolha a Opção: ")))
 
 
 def cadastrar_participante():  
     print("---- NOVO PARTICIPANTE ----")
-    dados = form("nome", "cpf", "idade", "email", "telefone")
+    dados = formulario("nome", "cpf", "idade", "email", "telefone" )
+
+
     participantes[dados['cpf']] = dados
     
 def buscar_participante():   
