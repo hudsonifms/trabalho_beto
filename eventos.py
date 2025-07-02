@@ -104,23 +104,23 @@ def cadastrar_evento():
         return continuar("Evento cadastrado com sucesso! Pressione enter para continuar.")
     return continuar("Cadastro cancelado! Pressione enter para continuar.")
     
-def mostrar_eventos():
+def mostrar_eventos(filtros={}):
     limpar_terminal()
     print("---- LISTA DE EVENTOS ----")
-    eventos = listar_eventos(eventos)
-    if not eventos:
+    lista_eventos = listar_eventos(eventos, filtros)
+    if not lista_eventos:
         print("Nenhum evento cadastrado.")
         return continuar()
     
-    for i, evento in enumerate(eventos, start=1):
+    for i, evento in enumerate(lista_eventos, start=1):
         print(f"{i} - {evento['nome']}")
     
     inp = input("Escolha um evento ou pressione enter para voltar: ")
     
-    if inp.isdigit() and 1 <= int(inp) <= len(eventos):
+    if inp.isdigit() and 1 <= int(inp) <= len(lista_eventos):
         limpar_terminal()
         print("---- DADOS DO EVENTO ----")
-        mostrar_dados(eventos[int(inp) - 1])
+        mostrar_dados(lista_eventos[int(inp) - 1])
         return continuar()
     
     return menu_eventos()
@@ -131,3 +131,15 @@ def listar_eventos(lista, filtros={}):
             filtrado = list(filter(lambda evento: value in evento.get(key), lista))
             lista = filtrado
     return lista
+
+def mostrar_proximos_eventos():
+        lista_eventos_filtrada = list(filter(lambda evento: datetime.now() < datetime.strptime(evento["data"], "%d-%m-%Y"), listar_eventos(eventos)))
+
+        if not lista_eventos_filtrada:
+            return continuar("Nenhum evento disponível para inscrição no momento... ")
+
+        limpar_terminal()
+        print("\n---- LISTA DE EVENTOS ----")
+        for i, evento in enumerate(lista_eventos_filtrada, start=1):
+            print(f"{i} - {evento['nome']} - Data: {evento['data']}")
+        return lista_eventos_filtrada

@@ -77,7 +77,7 @@ def mostrar_dados(dados):
 
 
 def continuar(mensagem="Pressione enter para continuar ... "):
-    return input(mensagem)
+    return input('\n'+mensagem)
 
 def primeira_maiuscula(string):
     if not string:
@@ -117,7 +117,7 @@ def limpar_printar(texto):
     
 def mostrar_dica(chave):
     dicas = {
-        "cpf": " (sometente números)",
+        "cpf": " (somente números)",
         "email": " (exemplo@dominio.com)",
         "telefone": " (somente números, 11 dígitos)",
         "data": " (DD/MM/AAAA)"
