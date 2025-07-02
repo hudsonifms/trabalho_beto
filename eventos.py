@@ -14,52 +14,7 @@ eventos = []
     Duração/horário
     Status (aberto, encerrado)
 '''
-
-eventos.append({
-    "id": 1,
-    "nome": "Workshop de Python",
-    "data": "05-12-2024",
-    "local": "Auditório Central",
-    "descricao": "Evento introdutório sobre programação em Python.",
-    "participantes": ["123.456.789-00", "Maria Silva"],
-    "palestrantes": ["João Souza"],
-    "tema": "Programação",
-    "telefone": "(11) 99999-0001",
-    "duracao": "09:00 - 12:00",
-    "status": "aberto"
-})
-temas.append({
-    "id": 1,
-    "titulo": "Programação",
-    "descricao": "Eventos relacionados a linguagens de programação."
-})
-eventos.append({
-    "id": 2,
-    "nome": "Seminário de IA",
-    "data": "05-08-2024",
-    "local": "Sala 101",
-    "descricao": "Discussão sobre tendências em Inteligência Artificial.",
-    "participantes": ["987.654.321-00", "Carlos Lima"],
-    "palestrantes": ["Ana Paula"],
-    "tema": "Inteligência Artificial",
-    "telefone": "(21) 98888-1234",
-    "duracao": "14:00 - 17:00",
-    "status": "aberto"
-})
  
-eventos.append({
-    "id": 3,
-    "nome": "Seminário de IA",
-    "data": "05-08-2026",
-    "local": "Sala 101",
-    "descricao": "Discussão sobre tendências em Inteligência Artificial.",
-    "participantes": ["987.654.321-00", "Carlos Lima"],
-    "palestrantes": ["Ana Paula"],
-    "tema": "Inteligência Artificial",
-    "telefone": "(21) 98888-1234",
-    "duracao": "14:00 -  17:00",
- 
-})
  
  
 def menu_eventos():

@@ -1,8 +1,9 @@
 
 import os
+from datetime import datetime
 
 user = []
-from datetime import datetime
+
 
 def mostrar_menu(opcoes, titulo=""):
     limpar_terminal()
