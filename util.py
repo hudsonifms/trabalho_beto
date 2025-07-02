@@ -17,12 +17,9 @@ def input_menu(func, opcoes, inp):
         user.append(opcoes[inp-1][0]())
         retornar_menu()
     except:
-        try: #alterar isso
-            if opcoes[inp-1][0] != None:
-                func()
-        except:
+        if opcoes[inp-1][0] != None:
             func()
-            
+                
 def formulario(*args, titulo="", lista=[]):
     valores = {}
     for arg in args:
@@ -52,7 +49,7 @@ def formulario(*args, titulo="", lista=[]):
                         continue
                     valores[arg].append(valor)
             else:
-                input_valor = input(f"{primeira_maiuscula(arg)} {mostrar_dica(arg)}: ")
+                input_valor = input(f"{primeira_maiuscula(arg)}{mostrar_dica(arg)}: ")
                 if validar(arg, input_valor) == False:
                     continue
                 valores[arg] = input_valor
@@ -120,9 +117,9 @@ def limpar_printar(texto):
     
 def mostrar_dica(chave):
     dicas = {
-        "cpf": "sometente números",
-        "email": "exemplo@dominio.com",
-        "telefone": "somente números, 11 dígitos",
-        "data": "DD/MM/AAAA"
+        "cpf": " (sometente números)",
+        "email": " (exemplo@dominio.com)",
+        "telefone": " (somente números, 11 dígitos)",
+        "data": " (DD/MM/AAAA)"
     }
     return dicas.get(chave) or ""
