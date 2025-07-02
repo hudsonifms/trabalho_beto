@@ -2,12 +2,12 @@
 import os
 
 user = []
+from datetime import datetime
 
 def mostrar_menu(opcoes, titulo=""):
     limpar_terminal()
     print(titulo)
     for i, opcao in enumerate(opcoes, start=1):
-        
         print(f"{i} - {opcao[1]}")
 
 def input_menu(func, opcoes, inp): 
@@ -33,29 +33,26 @@ def formulario(*args, titulo="", lista=[]):
                 mostrar_dados(valores)
                 
             if arg in lista:
-                listas = []
+                valores[arg] = []
                 while True:
                     limpar_terminal()
-                    
                     print(f"---- {primeira_maiuscula(arg)} ----")
                     print("(pressione enter para finalizar)")
 
-                    if len(listas) > 0:
-                        for i in range(len(listas)):
-                            print(f"{i+1}º - {listas[i]}")
-                            
-                    valor = input(f"{len(listas)+1}º - {primeira_maiuscula(arg)[:-1]}: ")
+                    if len(valores[arg]) > 0:
+                        for i in range(len(valores[arg])):
+                            print(f"{i+1}º - {valores[arg][i]}")
 
-                    if not valor and len(listas) > 0:
+                    valor = input(f"{len(valores[arg])+1}º - {primeira_maiuscula(arg)[:-1]}: ")
+
+                    if not valor and len(valores[arg]) > 0:
                         break
 
                     if not validar(arg, valor) or not valor:
                         continue
-                    listas.append(valor)
-
-                valores[arg] = listas
+                    valores[arg].append(valor)
             else:
-                input_valor = input(f"{primeira_maiuscula(arg)}: ")
+                input_valor = input(f"{primeira_maiuscula(arg)} {mostrar_dica(arg)}: ")
                 if validar(arg, input_valor) == False:
                     continue
                 valores[arg] = input_valor
@@ -79,8 +76,8 @@ def mostrar_dados(dados):
     else:
         for chave, valor in dados.items():
             if(chave != "id"):
-                print(f"{primeira_maiuscula(chave)}: \
-                    {mostrar_dados(valor) if isinstance(valor, list) else valor}")
+                print(f"{primeira_maiuscula(chave)}: {mostrar_dados(valor) if isinstance(valor, list) else valor}")
+
 
 def continuar(mensagem="Pressione enter para continuar ... "):
     return input(mensagem)
@@ -98,12 +95,34 @@ def validar(tipo, valor):
     elif tipo == "email":
         return "@" in valor and "." in valor
     elif tipo == "telefone":
-        return len(valor) >= 10 and valor.isdigit()
-    elif tipo == "idade":
-        return valor.isdigit() and int(valor) > 0
+        return len(valor) == 11 and valor.isdigit()
     elif tipo == "palestrantes":
         return True
-
+    elif tipo == "data":
+        try:
+            datetime.strptime(valor, "%d/%m/%Y")
+            return True
+        except (ValueError, TypeError):
+            return False
     if(len(valor) < 3):
         return False
     return True
+
+def converter_data(data):
+    try:
+        return datetime.strptime(data, "%d/%m/%Y").strftime("%d-%m-%Y")
+    except ValueError:
+        return None
+    
+def limpar_printar(texto):
+    limpar_terminal()
+    print(texto)
+    
+def mostrar_dica(chave):
+    dicas = {
+        "cpf": "sometente números",
+        "email": "exemplo@dominio.com",
+        "telefone": "somente números, 11 dígitos",
+        "data": "DD/MM/AAAA"
+    }
+    return dicas.get(chave) or ""

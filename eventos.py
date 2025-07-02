@@ -18,7 +18,7 @@ eventos = []
 eventos.append({
     "id": 1,
     "nome": "Workshop de Python",
-    "data": "2024-07-10",
+    "data": "05-12-2024",
     "local": "Auditório Central",
     "descricao": "Evento introdutório sobre programação em Python.",
     "participantes": ["123.456.789-00", "Maria Silva"],
@@ -36,7 +36,7 @@ temas.append({
 eventos.append({
     "id": 2,
     "nome": "Seminário de IA",
-    "data": "2024-08-05",
+    "data": "05-08-2024",
     "local": "Sala 101",
     "descricao": "Discussão sobre tendências em Inteligência Artificial.",
     "participantes": ["987.654.321-00", "Carlos Lima"],
@@ -47,10 +47,25 @@ eventos.append({
     "status": "aberto"
 })
  
+eventos.append({
+    "id": 3,
+    "nome": "Seminário de IA",
+    "data": "05-08-2026",
+    "local": "Sala 101",
+    "descricao": "Discussão sobre tendências em Inteligência Artificial.",
+    "participantes": ["987.654.321-00", "Carlos Lima"],
+    "palestrantes": ["Ana Paula"],
+    "tema": "Inteligência Artificial",
+    "telefone": "(21) 98888-1234",
+    "duracao": "14:00 -  17:00",
+ 
+})
+ 
+ 
 def menu_eventos():
     opcoes = [
         [cadastrar_evento, "Cadastrar Evento"],
-        [listar_eventos, "Listar Eventos"],
+        [mostrar_eventos, "Listar Eventos"],
         [menu_temas, "Temas"],
         [None, "Voltar"]
     ]
@@ -60,13 +75,10 @@ def menu_eventos():
 
 
 def cadastrar_evento():  
-
     if not temas:      
-        print("---- NOVO EVENTO ----")
-        print("Nenhum tema cadastrado. Por favor, cadastre um tema primeiro.")
-        return continuar()
+        return continuar("---- NOVO EVENTO ----\nNenhum tema cadastrado. Por favor, cadastre um tema primeiro.")
 
-    dados = formulario("nome", "descricao", "local", "telefone", "duracao", "palestrantes",titulo="NOVO EVENTO", lista=["palestrantes"])
+    dados = formulario("nome", "descricao", "local", "telefone", "data", "duracao", "palestrantes",titulo="NOVO EVENTO", lista=["palestrantes"])
     dados["id"] = len(eventos) + 1
     dados["tema"] = []
 
@@ -92,9 +104,10 @@ def cadastrar_evento():
         return continuar("Evento cadastrado com sucesso! Pressione enter para continuar.")
     return continuar("Cadastro cancelado! Pressione enter para continuar.")
     
-def listar_eventos():
+def mostrar_eventos():
     limpar_terminal()
     print("---- LISTA DE EVENTOS ----")
+    eventos = listar_eventos(eventos)
     if not eventos:
         print("Nenhum evento cadastrado.")
         return continuar()
@@ -111,5 +124,10 @@ def listar_eventos():
         return continuar()
     
     return menu_eventos()
-    
- 
+  
+def listar_eventos(lista, filtros={}):
+    if filtros != {}:
+        for key, value in filtros.items():
+            filtrado = list(filter(lambda evento: value in evento.get(key), lista))
+            lista = filtrado
+    return lista

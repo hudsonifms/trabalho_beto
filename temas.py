@@ -22,14 +22,11 @@ def menu_temas():
 def cadastrar_tema():
     limpar_terminal()
     print("---- CADASTRAR NOVO TEMA ----")
-    
-    if not dados['titulo'] or not dados['descricao']:
-        print("Título e descrição são obrigatórios.")
-        return continuar()
-    
-    dados = formulario("titulo", "descricao")
+
+    dados = formulario("titulo", "descricao", titulo="CADASTRAR TEMA")
     temas.append(dados)
-    
+    return continuar("Tema cadastrado com sucesso! Pressione enter para continuar.")
+
 def mostrar_temas():
     limpar_terminal()
     print("---- LISTA DE TEMAS ----")
@@ -54,7 +51,6 @@ def mostrar_temas():
 
 def listar_temas(excluir_temas_listagem=""):
     temas_filtrados = [tema for tema in temas if tema['titulo'] not in excluir_temas_listagem]
-    for i, tema in enumerate(temas_filtrados, start=1):
-        print(f"{i} - {tema['titulo']}")
-
+    for i in range (len(temas_filtrados)):
+        print(f"{i+1} - {temas_filtrados[i]['titulo']}")
     return temas_filtrados
