@@ -1,16 +1,13 @@
 import json
-from temas import temas
-from eventos import eventos
-from participantes import participantes
 
 arquivos = [
-    ["dados/temas.json", temas],
-    ["dados/eventos.json", eventos],
-    ["dados/participantes.json", participantes]
+    "dados/temas.json",
+    "dados/eventos.json",
+    "dados/participantes.json"
 ]
 
 
-def dados(nome_arquivo, variavel, tipo):
+def gerenciar_dados(nome_arquivo, variavel, tipo):
     if tipo == "w":
         with open(nome_arquivo, "w", encoding="utf-8") as arquivo:
             json.dump(variavel, arquivo, ensure_ascii=False, indent=4)
@@ -21,12 +18,14 @@ def dados(nome_arquivo, variavel, tipo):
         except FileNotFoundError:
             return None
 
-def salvar_dados(**variaveis):
-    for i in range(len(arquivos)):
-        dados(arquivos[i][0], arquivos[i][1], "w")
+def salvar_dados(temas, eventos, participantes):
+    gerenciar_dados(arquivos[0], temas, "w")
+    gerenciar_dados(arquivos[1], eventos, "w")
+    gerenciar_dados(arquivos[2], participantes, "w")
+
 
 def carregar_dados():
     dado = []
     for i in range(len(arquivos)):
-        dado.append(dados(arquivos[i][0], None, "r"))
+        dado.append(gerenciar_dados(arquivos[i], None, "r"))
     return dado

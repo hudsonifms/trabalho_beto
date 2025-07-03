@@ -1,12 +1,7 @@
 from util import *
- 
-temas = []
+from dados import gerenciar_dados
 
-'''
-    id
-    Título
-    Descrição
-'''
+temas = gerenciar_dados("dados/temas.json", None, "r")
 
 def menu_temas():
     opcoes = [
@@ -36,7 +31,7 @@ def mostrar_temas():
     
     listagem_temas = listar_temas()
 
-    inp = input("Escolha um tema ou pressione enter para voltar: ")
+    inp = input("Escolha um tema (número) ou pressione enter para voltar: ")
     
     if inp.isdigit() and 1 <= int(inp) <= len(listagem_temas):
         limpar_terminal()

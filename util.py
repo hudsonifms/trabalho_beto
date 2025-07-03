@@ -4,56 +4,72 @@ from datetime import datetime
 
 user = []
 
-
 def mostrar_menu(opcoes, titulo=""):
     limpar_terminal()
     print(titulo)
     for i, opcao in enumerate(opcoes, start=1):
         print(f"{i} - {opcao[1]}")
 
-def input_menu(func, opcoes, inp): 
-    try:  
-        inp = int(inp)
+
+def confirmar_acao(lista, item):
+    valor_input = ''
+    while valor_input != 's' and valor_input != 'n':
         limpar_terminal()
-        user.append(opcoes[inp-1][0]())
+        print(f"---- {lista.get('nome')} ----")
+        mostrar_dados(lista)
+
+        valor_input = input(f"\nDeseja cadastrar o {item}? (s(sim)/n(não)): ")
+        if(valor_input == 's'):
+            return True
+        elif(valor_input == 'n'): 
+            return False
+
+def input_menu(funcao_anterior, opcoes, entrada): 
+    try:  
+        entrada = int(entrada)
+        limpar_terminal()
+        user.append(opcoes[entrada-1][0]())
         retornar_menu()
-    except:
-        if opcoes[inp-1][0] != None:
-            func()
+    except: # caso nao for inteiro
+        try: #opcao voltar
+            if opcoes[entrada-1][0] != None:
+                funcao_anterior()
+        except: #entrada vazia
+            return funcao_anterior()
                 
-def formulario(*args, titulo="", lista=[]):
+def formulario(*campos, titulo="", lista=[]):
     valores = {}
-    for arg in args:
-        while validar(arg, valores.get(arg)) == False:
+    for campo in campos:
+        while validar(campo, valores.get(campo)) == False:
             if titulo:
                 limpar_terminal()
                 print(f"---- {titulo} ----")
                 mostrar_dados(valores)
                 
-            if arg in lista:
-                valores[arg] = []
+            if campo in lista:
+                valores[campo] = []
                 while True:
                     limpar_terminal()
-                    print(f"---- {primeira_maiuscula(arg)} ----")
+                    print(f"---- {primeira_maiuscula(campo)} ----")
                     print("(pressione enter para finalizar)")
 
-                    if len(valores[arg]) > 0:
-                        for i in range(len(valores[arg])):
-                            print(f"{i+1}º - {valores[arg][i]}")
+                    if len(valores[campo]) > 0:
+                        for i in range(len(valores[campo])):
+                            print(f"{i+1}º - {valores[campo][i]}")
 
-                    valor = input(f"{len(valores[arg])+1}º - {primeira_maiuscula(arg)[:-1]}: ")
+                    valor = input(f"{len(valores[campo])+1}º - {primeira_maiuscula(campo)[:-1]}: ")
 
-                    if not valor and len(valores[arg]) > 0:
+                    if not valor and len(valores[campo]) > 0:
                         break
 
-                    if not validar(arg, valor) or not valor:
+                    if not validar(campo, valor) or not valor:
                         continue
-                    valores[arg].append(valor)
+                    valores[campo].append(valor)
             else:
-                input_valor = input(f"{primeira_maiuscula(arg)}{mostrar_dica(arg)}: ")
-                if validar(arg, input_valor) == False:
+                input_valor = input(f"{primeira_maiuscula(campo)}{mostrar_dica(campo)}: ")
+                if validar(campo, input_valor) == False:
                     continue
-                valores[arg] = input_valor
+                valores[campo] = input_valor
     return valores
 
 
@@ -85,6 +101,25 @@ def primeira_maiuscula(string):
         return ""
     return string[0].upper() + string[1:]
 
+def converter_data(data):
+    try:
+        return datetime.strptime(data, "%d/%m/%Y").strftime("%d-%m-%Y")
+    except ValueError:
+        return None
+    
+def limpar_printar(texto):
+    limpar_terminal()
+    print(texto)
+    
+def mostrar_dica(chave):
+    dicas = {
+        "cpf": " (somente números)",
+        "email": " (exemplo@dominio.com)",
+        "telefone": " (somente números, 11 dígitos)",
+        "data": " (DD/MM/AAAA)"
+    }
+    return dicas.get(chave) or ""
+
 def validar(tipo, valor):
     if(valor is None):
         return False
@@ -105,22 +140,3 @@ def validar(tipo, valor):
     if(len(valor) < 3):
         return False
     return True
-
-def converter_data(data):
-    try:
-        return datetime.strptime(data, "%d/%m/%Y").strftime("%d-%m-%Y")
-    except ValueError:
-        return None
-    
-def limpar_printar(texto):
-    limpar_terminal()
-    print(texto)
-    
-def mostrar_dica(chave):
-    dicas = {
-        "cpf": " (somente números)",
-        "email": " (exemplo@dominio.com)",
-        "telefone": " (somente números, 11 dígitos)",
-        "data": " (DD/MM/AAAA)"
-    }
-    return dicas.get(chave) or ""

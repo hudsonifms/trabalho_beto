@@ -1,22 +1,10 @@
 from util import *
 from temas import *
+from dados import gerenciar_dados
 
-eventos = []
-'''
-    id
-    Data
-    Local
-    Descrição
-    Lista de participantes (CPFs ou nomes)
-    Lista de palestrantes
-    Tema
-    Telefone/contato
-    Duração/horário
-    Status (aberto, encerrado)
-'''
- 
- 
- 
+eventos = gerenciar_dados("dados/eventos.json", None, "r")
+
+
 def menu_eventos():
     opcoes = [
         [cadastrar_evento, "Cadastrar Evento"],
@@ -43,7 +31,7 @@ def cadastrar_evento():
         if(dados.get("tema")): print(f"Temas selecionados: {mostrar_dados(dados['tema'])}")
        
         listagem_temas = listar_temas(excluir_temas_listagem=dados.get("tema"))  
-        inp = input("Escolha o(s) tema(s): ")
+        inp = input("Escolha o tema (número): ")
 
         if inp.isdigit() and 1 <= int(inp) <= len(listagem_temas):
             dados["tema"].append(listagem_temas[int(inp) - 1]["titulo"])
@@ -51,14 +39,17 @@ def cadastrar_evento():
         if inp == "" and len(dados.get("tema")) > 0:
             break
 
+    
     limpar_terminal()
     print(f"---- {dados.get('nome')} ----")
     mostrar_dados(dados)
-    if(input("Deseja criar o evento? (s/qualquer tecla): ").lower() == "s"):
+
+    if(confirmar_acao(dados, "Evento") == True):
         eventos.append(dados)
-        return continuar("Evento cadastrado com sucesso! Pressione enter para continuar.")
-    return continuar("Cadastro cancelado! Pressione enter para continuar.")
-    
+        continuar("Cadastro concluido com sucesso! Pressione enter para continuar.")
+    else: continuar("Cadastro cancelado! Pressione enter para continuar.")
+
+ 
 def mostrar_eventos(filtros={}):
     limpar_terminal()
     print("---- LISTA DE EVENTOS ----")
@@ -70,7 +61,7 @@ def mostrar_eventos(filtros={}):
     for i, evento in enumerate(lista_eventos, start=1):
         print(f"{i} - {evento['nome']}")
     
-    inp = input("Escolha um evento ou pressione enter para voltar: ")
+    inp = input("Escolha um evento (número) ou pressione enter para voltar: ")
     
     if inp.isdigit() and 1 <= int(inp) <= len(lista_eventos):
         limpar_terminal()
@@ -89,7 +80,6 @@ def listar_eventos(lista, filtros={}):
 
 def mostrar_proximos_eventos():
         lista_eventos_filtrada = list(filter(lambda evento: datetime.now() < datetime.strptime(evento["data"], "%d-%m-%Y"), listar_eventos(eventos)))
-
         if not lista_eventos_filtrada:
             return continuar("Nenhum evento disponível para inscrição no momento... ")
 

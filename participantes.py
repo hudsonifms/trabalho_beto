@@ -1,15 +1,9 @@
 from eventos import *
 from util import *
- 
-participantes = {}
-'''
-{
-    nome:
-    cpf:
-    email: 
-    temas_preferidos:
-}
-'''
+from dados import gerenciar_dados
+
+participantes = gerenciar_dados("dados/participantes.json", None, "r")
+
 def menu_participantes():
     opcoes = [
         [inscrever_participante, "Inscrever Participante"],
@@ -19,32 +13,34 @@ def menu_participantes():
     ]
 
     mostrar_menu(opcoes, "---- [ PARTICIPANTES ] ----")
-    input_menu(menu_participantes, opcoes, int(input("Escolha a Opção: ")))
+    input_menu(menu_participantes, opcoes, int(input("Escolha a opção: ")))
 
 
 def cadastrar_participante():  
     print("---- NOVO PARTICIPANTE ----")
     dados = formulario("nome", "cpf", "email", "telefone", titulo="CADASTRAR PARTICIPANTE")
 
-    limpar_terminal()
-    print(f"---- {dados.get('nome')} ----")
-    mostrar_dados(dados)
-    if(input("Deseja cadastrar participante? (s/qualquer tecla): ").lower() == "s"):
+    if(confirmar_acao(dados, "Participante") == True):
         if(dados['cpf'] in participantes):
             return continuar("CPF já cadastrado! Pressione enter para continuar.")
+        
         participantes[dados['cpf']] = dados
-        return continuar("Participante cadastrado com sucesso! Pressione enter para continuar.")
-    return continuar("Cadastro cancelado! Pressione enter para continuar.")
-    
+        continuar("Participante cadastrado com sucesso! Pressione enter para continuar.")
+    else: continuar("Cadastro cancelado! Pressione enter para continuar.")
+ 
 def buscar_participante():   
     print("---- BUSCA PARTICIPANTE ----")
     inp = input("Digite o cpf do participante: ")
 
+    if(inp == ''):
+        return
+    
     if(participantes.get(inp)):
         limpar_terminal()
         print("---- DADOS ----")
         mostrar_dados(participantes[inp])
         return continuar()
+
     return buscar_participante()
 
 def inscrever_participante():
