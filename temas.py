@@ -35,7 +35,7 @@ def mostrar_temas():
     
     if inp.isdigit() and 1 <= int(inp) <= len(listagem_temas):
         limpar_terminal()
-        print(f"---- {listagem_temas[int(inp) - 1]['titulo']} ----")
+        print(f"---- [ {listagem_temas[int(inp) - 1]['titulo']} ] ----")
         mostrar_dados(listagem_temas[int(inp) - 1])
         return continuar()
     

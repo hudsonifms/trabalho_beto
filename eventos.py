@@ -24,7 +24,8 @@ def cadastrar_evento():
     dados = formulario("nome", "descricao", "local", "telefone", "data", "duracao", "palestrantes",titulo="NOVO EVENTO", lista=["palestrantes"])
     dados["id"] = len(eventos) + 1
     dados["tema"] = []
-
+    dados["participantes"] = []
+    
     while True:
         limpar_terminal()
         print("---- SELECIONAR TEMA ----\n(pressione enter para finalizar)")
@@ -35,16 +36,16 @@ def cadastrar_evento():
 
         if inp.isdigit() and 1 <= int(inp) <= len(listagem_temas):
             dados["tema"].append(listagem_temas[int(inp) - 1]["titulo"])
-
+            
         if inp == "" and len(dados.get("tema")) > 0:
             break
 
     
     limpar_terminal()
-    print(f"---- {dados.get('nome')} ----")
+    print(f"---- [ {dados.get('nome')} ] ----")
     mostrar_dados(dados)
 
-    if(confirmar_acao(dados, "Evento") == True):
+    if(confirmar_acao(dados, f"Deseja cadastrar o evento?") == True):
         eventos.append(dados)
         continuar("Cadastro concluido com sucesso! Pressione enter para continuar.")
     else: continuar("Cadastro cancelado! Pressione enter para continuar.")
@@ -78,13 +79,13 @@ def listar_eventos(lista, filtros={}):
             lista = filtrado
     return lista
 
-def mostrar_proximos_eventos():
-        lista_eventos_filtrada = list(filter(lambda evento: datetime.now() < datetime.strptime(evento["data"], "%d-%m-%Y"), listar_eventos(eventos)))
-        if not lista_eventos_filtrada:
-            return continuar("Nenhum evento disponível para inscrição no momento... ")
+def mostrar_proximos_eventos(filtros={}):
+    lista_eventos_filtrada = list(filter(lambda evento: datetime.now() < datetime.strptime(evento["data"], "%d/%m/%Y"), listar_eventos(eventos, filtros)))
+    if not lista_eventos_filtrada:
+        return continuar("Nenhum evento disponível para inscrição no momento... ")
 
-        limpar_terminal()
-        print("\n---- LISTA DE EVENTOS ----")
-        for i, evento in enumerate(lista_eventos_filtrada, start=1):
-            print(f"{i} - {evento['nome']} - Data: {evento['data']}")
-        return lista_eventos_filtrada
+    limpar_terminal()
+    print("\n---- [ LISTA DE EVENTOS ] ----")
+    for i, evento in enumerate(lista_eventos_filtrada, start=1):
+        print(f"{i} - {evento['nome']} - Data: {evento['data']}")
+    return lista_eventos_filtrada

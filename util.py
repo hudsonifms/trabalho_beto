@@ -11,14 +11,20 @@ def mostrar_menu(opcoes, titulo=""):
         print(f"{i} - {opcao[1]}")
 
 
-def confirmar_acao(lista, item):
+def confirmar_acao(dados, mensagem, limpar=True, titulo=""):
     valor_input = ''
     while valor_input != 's' and valor_input != 'n':
-        limpar_terminal()
-        print(f"---- {lista.get('nome')} ----")
-        mostrar_dados(lista)
+        if(limpar):
+            limpar_terminal()
+            
+        if(isinstance(dados, dict) and dados == {}):
+            print(f"---- [ {dados.get('nome')} ] ----")
+        elif(titulo):
+            print(f"---- [ {titulo} ] ----")
 
-        valor_input = input(f"\nDeseja cadastrar o {item}? (s(sim)/n(não)): ")
+        mostrar_dados(dados)
+
+        valor_input = input(f"\n{mensagem} (s(sim)/n(não)): ")
         if(valor_input == 's'):
             return True
         elif(valor_input == 'n'): 
@@ -43,14 +49,14 @@ def formulario(*campos, titulo="", lista=[]):
         while validar(campo, valores.get(campo)) == False:
             if titulo:
                 limpar_terminal()
-                print(f"---- {titulo} ----")
+                print(f"---- [ {titulo} ] ----")
                 mostrar_dados(valores)
                 
             if campo in lista:
                 valores[campo] = []
                 while True:
                     limpar_terminal()
-                    print(f"---- {primeira_maiuscula(campo)} ----")
+                    print(f"---- [ {primeira_maiuscula(campo)} ] ----")
                     print("(pressione enter para finalizar)")
 
                     if len(valores[campo]) > 0:
