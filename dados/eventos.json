@@ -1,17 +1,3 @@
 [
-    {
-        "nome": "Aula de IA",
-        "descricao": "Aulão sobre IA",
-        "local": "lab 3",
-        "telefone": "12345678900",
-        "data": "14/07/2025",
-        "duracao": "duas",
-        "palestrantes": [
-            "-"
-        ],
-        "id": 1,
-        "tema": [
-            "cadastroooow"
-        ]
-    }
+
 ]
